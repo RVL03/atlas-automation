@@ -1,1 +1,1 @@
-# rs-atlas-automation
+automation
