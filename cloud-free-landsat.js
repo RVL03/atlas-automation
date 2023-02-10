@@ -331,73 +331,6 @@ print ('List of Image 2013-2022',ImgbyYear)
 // print ('year',ImgbyYear.aggregate_array('year'))
 //** Convert collectiont to list
 var listOfImages = ImgbyYear.toList(ImgbyYear.size())      
-
-//=========================================================================================\\
-/* 
-                                  Animated GIF
-*/
-//==========================================================================================\\ 
-//** Composite
-// include code used to render text
-var text = require('users/gena/packages:text')
-
-// get text location
-var pt = text.getLocation(geometry, 'right', '2%', '35%')
-
-var visParams = {bands:['B3','B2','B1'],
-                    min: 7900,
-                    max: 10000}
-                    
-
-// Create RGB visualization images for use as animation frames.
-var timelapseRGB = ImgbyYear.map(function(img) {
-  var scale = 100
-  var textVis = { fontSize: 32, textColor: 'ffffff', outlineColor: '000000', outlineWidth: 2.5, outlineOpacity: 0.6 }
-  var label = text.draw(img.get('year'), pt, scale, textVis)
-  return img.visualize(visParams).clip(roi).blend(label)
-});
-
-// Define GIF visualization arguments.
-var gifParams = {
-  'region': geometry,
-  'dimensions': 600,
-  'crs': 'EPSG:3857',
-  'framesPerSecond': 1,
-  'format': 'gif'
-};
-print('RGB',ui.Thumbnail(timelapseRGB, gifParams));
-print(timelapseRGB.getVideoThumbURL(gifParams));
-
-//** NDVI
-// include code used to render text
-var text = require('users/gena/packages:text')
-
-// get text location
-var pt = text.getLocation(geometry, 'right', '2%', '35%')
-
-var visParams = {bands: ['NDVI'],min:0.2,max:0.4,palette:"000000,a50026,d73027,f46d43,fdae61,fee08b,ffffbf,d9ef8b,a6d96a,66bd63,1a9850,006837"}
-                    
-
-// Create RGB visualization images for use as animation frames.
-var timelapseNDVI = ImgbyYear.map(function(img) {
-  var scale = 100
-  var textVis = { fontSize: 32, textColor: 'ffffff', outlineColor: '000000', outlineWidth: 2.5, outlineOpacity: 0.6 }
-  var label = text.draw(img.get('year'), pt, scale, textVis)
-  return img.visualize(visParams).clip(roi).blend(label)
-});
-
-// Define GIF visualization arguments.
-var gifParams = {
-  'region': geometry,
-  'dimensions': 600,
-  'crs': 'EPSG:3857',
-  'framesPerSecond': 1,
-  'format': 'gif'
-};
-print('NDVI',ui.Thumbnail(timelapseNDVI, gifParams));
-print(timelapseNDVI.getVideoThumbURL(gifParams));
-
-
 //=========================================================================================\\
 /* 
                                   DOWNLOAD
@@ -460,7 +393,7 @@ Export.video.toDrive({
             crs:'EPSG:3857', 
             maxPixels:1e12, 
             maxFrames:10})
-                 
+                
 Export.video.toDrive({
             collection : timelapseNDVI, 
             description :'NDVI_'+naming+'_Dry_Image', 
