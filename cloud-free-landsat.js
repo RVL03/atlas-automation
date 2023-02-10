@@ -460,7 +460,7 @@ Export.video.toDrive({
             crs:'EPSG:3857', 
             maxPixels:1e12, 
             maxFrames:10})
-                
+                 
 Export.video.toDrive({
             collection : timelapseNDVI, 
             description :'NDVI_'+naming+'_Dry_Image', 
